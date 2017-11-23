@@ -1,0 +1,388 @@
+ adb 命令:
+ 
+
+android adb shell命令使用  
+当运行一个命令的时候出现
+rm failed for CoeeRoat.apk, Read-only file system
+adb shell mount -o remount rw /system  挂载设备
+
+内置应用：
+adb shell mount -o remount rw /system
+adb push clock.apk /system/app/clock.apk
+
+删除内置应用：
+adb remount
+su--------
+adb shell mount -o remount rw /system
+mount -o remount, rw /system-------
+adb shell
+cd system/app
+rm -rf clock.apk
+
+bat 文件：
+adb shell mount -o remount,rw /dev/block/mtdblock3 /system
+adb push sssss  /system/bin/rota
+adb shell sync
+adb shell chown root.shell /system/bin/rota
+adb shell chmod 6755 /system/bin/rota
+adb shell rm -r /system/xbin/sssss
+adb shell sync
+adb shell ln -s /system/bin/sssss /system/xbin/sssss
+adb shell sync
+adb shell mount -o remount,ro /dev/block/mtdblock3 /system
+pause
+
+
+
+ 1. 显示系统中全部Android平台：
+
+    android list targets
+
+2. 显示系统中全部AVD（模拟器）：
+
+    android list avd
+
+3. 创建AVD（模拟器）：
+
+    android create avd --name 名称 --target 平台编号
+
+4. 启动模拟器：
+
+    emulator -avd 名称 -sdcard ~/名称.img (-skin 1280x800)
+
+5. 删除AVD（模拟器）：
+
+    android delete avd --name 名称
+
+6. 创建SDCard：
+
+    mksdcard 1024M ~/名称.img
+
+7. AVD(模拟器)所在位置：
+
+    Linux(~/.android/avd)      Windows(C:\Documents and Settings\Administrator\.android\avd)
+
+8. 启动DDMS：
+
+    ddms
+
+9. 显示当前运行的全部模拟器：
+
+    adb devices
+
+10. 对某一模拟器执行命令：
+
+      abd -s 模拟器编号 命令
+
+11. 安装应用程序：
+
+      adb install -r 应用程序.apk
+
+12. 获取模拟器中的文件：
+
+      adb pull <remote> <local>
+
+13. 向模拟器中写文件：
+
+      adb push <local> <remote>
+
+14. 进入模拟器的shell模式：
+
+      adb shell
+
+15. 启动SDK，文档，实例下载管理器：
+
+      android
+
+16. 缷载apk包：
+
+      adb shell
+
+      cd data/app
+
+      rm apk包
+
+      exit
+
+      adb uninstall apk包的主包名
+
+      adb install -r apk包
+
+17. 查看adb命令帮助信息：
+
+      adb help
+
+18. 在命令行中查看LOG信息：
+
+      adb logcat -s 标签名
+
+19. adb shell后面跟的命令主要来自：
+
+      源码\system\core\toolbox目录和源码\frameworks\base\cmds目录。
+
+20. 删除系统应用：
+
+      adb remount （重新挂载系统分区，使系统分区重新可写）。
+
+      adb shell
+
+      cd system/app
+
+      rm *.apk
+
+21. 获取管理员权限：
+
+      adb root
+
+22. 启动Activity：
+
+      adb shell am start -n 包名/包名＋类名（-n 类名,-a action,-d date,-m MIME-TYPE,-c category,-e 扩展数据,等）。
+
+23、发布端口：
+
+    你可以设置任意的端口号，做为主机向模拟器或设备的请求端口。如： 
+adb forward tcp:5555 tcp:8000
+
+24、复制文件：
+
+    你可向一个设备或从一个设备中复制文件， 
+     复制一个文件或目录到设备或模拟器上： 
+  adb push <source> <destination></destination></source> 
+      如：adb push test.txt /tmp/test.txt 
+     从设备或模拟器上复制一个文件或目录： 
+     adb pull <source> <destination></destination></source> 
+     如：adb pull /addroid/lib/libwebcore.so .
+
+25、搜索模拟器/设备的实例：
+
+     取得当前运行的模拟器/设备的实例的列表及每个实例的状态： 
+    adb devices
+
+26、查看bug报告： 
+adb bugreport 
+27、记录无线通讯日志：
+
+    一般来说，无线通讯的日志非常多，在运行时没必要去记录，但我们还是可以通过命令，设置记录： 
+    adb shell 
+    logcat -b radio
+
+28、获取设备的ID和序列号：
+
+     adb get-product 
+     adb get-serialno
+
+29、访问数据库SQLite3
+
+     adb shell 
+     sqlite3
+
+#cd system/sd/data //进入系统内指定文件夹 
+#ls //列表显示当前文件夹内容 
+#rm -r xxx //删除名字为xxx的文件夹及其里面的所有文件 
+#rm xxx //删除文件xxx 
+#rmdir xxx //删除xxx的文件夹
+
+
+【操作命令】
+
+　　1. 查看设备
+
+　　adb devices
+
+这个命令是查看当前连接的设备, 连接到计算机的android设备或者模拟器将会列出显示
+
+Android系列教程(六) adb操作命令详解
+
+　　2.安装软件
+
+　　adb install
+
+adb install <apk文件路径> :这个命令将指定的apk文件安装到设备上
+
+Android系列教程(六) adb操作命令详解
+
+　　3. 卸载软件
+
+　　adb uninstall <软件名>
+
+　　adb uninstall -k <软件名>
+
+如果加 -k 参数,为卸载软件但是保留配置和缓存文件.
+
+　　4. 进入设备或模拟器的shell：
+
+　　adb shell
+
+通过上面的命令，就可以进入设备或模拟器的shell环境中，在这个linux Shell中，你可以执行各种Linux的命令，另外如果只想执行一条shell命令，可以采用以下的方式：
+
+　　adb shell [command]
+
+如：adb shell dmesg会打印出内核的调试信息。
+
+　　5. 发布端口
+
+可以设置任意的端口号，做为主机向模拟器或设备的请求端口。如：
+
+adb forward tcp:5555 tcp:8000
+
+　　6. 从电脑上发送文件到设备
+
+　　adb push <本地路径> <远程路径>
+
+用push命令可以把本机电脑上的文件或者文件夹复制到设备(手机)
+
+　　7. 从设备上下载文件到电脑
+
+　　adb pull <远程路径> <本地路径>
+
+用pull命令可以把设备(手机)上的文件或者文件夹复制到本机电脑
+
+　　8、查看bug报告
+
+adb bugreport
+
+　　9、记录无线通讯日志
+
+一般来说，无线通讯的日志非常多，在运行时没必要去记录，但我们还是可以通过命令，设置记录：
+
+adb shell
+
+logcat -b radio
+
+　　10、获取设备的ID和序列号
+
+adb get-product
+
+adb get-serialno
+
+adb shell
+
+sqlite3
+
+
+
+
+
+
+shell命令：
+
+ （一）基本的Linux命令
+
+1.ls
+列出当前目录下的文件夹和文件，可以用ls -l或直接ll列出详细内容
+root@xumin:/ # ll
+ll
+
+2.pwd
+打印出当前所在的目录路径，在写脚本的时候会有用
+root@xumin:/system/app # pwd
+pwd
+
+3.cd
+切换目录
+"cd -" 切换到上次目录
+
+"cd .." 切换到上级目录
+
+"cd ../.."切换到上级的上级目录
+
+4.cp
+复制文件，如复制当前目录下的xumin-song.mp3到当前目录下的tmp目录下：
+root@xumin:/storage/sdcard0 # cp xumin-song.mp3 ./tmp
+cp xumin-song.mp3 ./tmp
+root@xumin:/storage/sdcard0 # cd tmp
+cd tmp
+root@xumin:/storage/sdcard0/tmp # ls
+ls
+xumin-song.mp3
+
+5.mv
+移动文件或者文件夹，重命名。如重命名当前目录下的xumin-song.mp3为music.mp3:
+root@xumin:/storage/sdcard0/tmp # ls
+ls
+xumin-song.mp3
+root@xumin:/storage/sdcard0/tmp # mv *.mp3 music.mp3
+mv *.mp3 music.mp3
+root@xumin:/storage/sdcard0/tmp # ls
+ls
+music.mp3
+
+5.chmod
+修改文件或文件夹的权限,写shell脚本的时候需要用到
+r:可读，4；w:可写, 2；x：可执行，1
+7:4+2+1,可读可写可执行
+6:4+2+0,可读可写
+5:4+0+1,可读可执行
+chmod filename 755
+
+6.cat,more
+显示文件内容
+cat filename
+more file name
+
+7.rm，rmdir
+rm，***文件
+rmdir，***目录
+
+8.df
+显示磁盘空间大小
+root@xumin:/ # df
+df
+Filesystem               Size     Used     Free   Blksize
+
+/dev                   917.1M    64.0K   917.0M   4096
+
+9.du
+显示目录空间大小
+
+10.grep
+查找字符串
+
+11.ps
+显示系统瞬时进程状态
+root@xumin:/storage/sdcard0 # ps
+ps
+USER     PID   PPID  VSIZE  RSS     WCHAN    PC         NAME
+
+root      1     0     668    536   c02662d8 00018288 S /init
+使用管道结合grep可以查看具体进程的状态：
+root@xumin:/ # ps | grep com.android.launcher
+ps | grep com.aurora.launcher
+
+12.top
+动态的显示进程状态
+动态的显示com.android.launcher进程状态：
+
+top | grep com.android.launcher
+
+32078  0   0% S    19 943108K  71308K  fg system   com.android.launcher
+
+13.kill
+杀死进程
+kill pid
+杀死com.android.launcher
+root@xumin:/ # ps | grep com.android.launcher
+ps | grep com.android.launcher
+system    32078 31454 943108 71308 ffffffff 400ec5b0 S com.android.launcher
+root@xumin:/ # kill 32078
+
+14.touch
+创建文件
+root@xumin:/storage/sdcard0/tmp # touch test.txt
+touch test.txt
+root@xumin:/storage/sdcard0/tmp # ls
+ls
+music.mp3
+music_backup
+test.txt
+
+15.mkdir
+创建目录
+root@xumin:/storage/sdcard0/tmp # mkdir newdir
+mkdir newdir
+root@xumin:/storage/sdcard0/tmp # ls
+ls
+music.mp3
+music_backup
+newdir
+test.txt

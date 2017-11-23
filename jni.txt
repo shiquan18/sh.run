@@ -1,0 +1,33 @@
+1.本地方法：
+public native String getJniString();
+2.make projeck/rebuild project 生成class文件
+3.生成c 头文件
+命令：
+javah -d jni -classpath 
+C:\Users\Administrator\AppData\Local\Android\sdk\platforms\android-19\android.jar;
+E:\asproject\demo\Myndk\app\build\intermediates\classes\debug com.ndk.administrator.myndk.UtilsJni
+
+4.编写c代码；
+#include <jni.h>
+
+jstring JNICALL Java_com_ndk_administrator_myndk_UtilsJni_getJniString
+  (JNIEnv *env, jobject obj){
+        return (*env)->NewStringUTF(env,"hellow jni !");
+  }
+
+5.配置：gradle.properties文件中加：
+android.useDeprecatedNdk=true
+6.app：build.gradle 中加：
+        ndk {
+            moduleName "myjni"
+            ldLibs "log"
+            abiFilters "armeabi", "armeabi-v7a", "x86"
+        }
+
+7.rebuild project 生成os文件;
+8.加载os库
+    static {
+        System.loadLibrary("myjni");
+    }
+
+9.调用完成；

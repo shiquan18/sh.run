@@ -1,0 +1,11 @@
+1.将.sh文件copy到sdcard中；
+adb push localpath phonepath
+cd sdcard
+su
+cp 文件 /data
+cd /data
+chmod 777 文件
+sh .sh文件
+
+2.cp 文件 sdcard
+adb pull 文件 localpath
